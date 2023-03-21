@@ -50,7 +50,7 @@ public class SpringConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public DataSource dataSource() {
+    DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/fruits_db");
@@ -60,7 +60,7 @@ public class SpringConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate() {
+    JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(dataSource());
     }
 }
