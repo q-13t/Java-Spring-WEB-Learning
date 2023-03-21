@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button><a href="/fruits">Return to Fruits!</a></button>
+    <br>
+
+    <form th:method="PATCH" th:action="@{/fruits/{id}(id = ${fruit.getId()})}" th:object="${fruit}">
+        <label for="name"></label>
+        <input type="text" th:field="*{name}" id="name">
+        <div style="color: red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+        <input type="text" th:field="*{fresh}" id="fresh">
+        <div style="color: red;" th:if="${#fields.hasErrors('fresh')}" th:errors="*{fresh}">Fresh Error</div>
+        <br>
+        <input name="update" type="submit" value="Update">
+        <input name="delete" type="submit" value="Delete">
+    </form>
+</body>
+
+
+</html>
