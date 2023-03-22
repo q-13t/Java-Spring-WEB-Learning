@@ -1,7 +1,5 @@
 package com.test.learn.godbless.config;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +11,21 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityConfig implements WebMvcConfigurer {
 
     @Bean
     SecurityFilterChain httpSecurity(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests((authz) -> authz
+        return http.authorizeHttpRequests()
                 .requestMatchers("/fruits", "/fruits/**").hasRole("ADMIN")
-                .requestMatchers("/hi").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("/").permitAll())
-                .formLogin(withDefaults())
-                .csrf(withDefaults())
+                .requestMatchers("/hi", "/bb").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/", "/error/**", "/logout").permitAll().and()
+                .formLogin(login -> login.loginPage("/hello").permitAll())
+                .logout(logout -> logout.permitAll().logoutSuccessUrl("/"))
+                .exceptionHandling(handling -> handling.accessDeniedPage("/error/403"))
                 .build();
     }
 
@@ -36,7 +36,6 @@ public class SecurityConfig {
     }
 
     @Bean
-    @SuppressWarnings({ "deprecation" })
     PasswordEncoder getPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }

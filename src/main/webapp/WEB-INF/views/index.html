@@ -9,12 +9,12 @@
 </head>
 
 <body>
-
-    <button><a href="/logout">Logout</a></button>
-    <button><a href="/hi">Go to Hello Page!</a></button>
+    <form th:method="POST" th:action="@{/logout}">
+        <input type="submit" value="Logout">
+    </form>
+    <button><a href=" /hi">Go to Hello Page!</a></button>
     <button><a href="/fruits">Go to Fruits Page!</a></button>
     <br>
-
 </body>
 
 
