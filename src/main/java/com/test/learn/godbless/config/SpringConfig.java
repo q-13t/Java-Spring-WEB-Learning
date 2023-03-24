@@ -1,19 +1,18 @@
 package com.test.learn.godbless.config;
 
 import javax.sql.DataSource;
-
-import org.springframework.context.ApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.springframework.context.annotation.Bean;
+import org.thymeleaf.spring6.view.ThymeleafViewResolver;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring6.view.ThymeleafViewResolver;
+import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 
 @EnableWebMvc
 @Configuration
@@ -29,7 +28,7 @@ public class SpringConfig implements WebMvcConfigurer {
     SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(applicationContext);
-        templateResolver.setPrefix("WEB-INF/views/");
+        templateResolver.setPrefix("classpath:/templates/");
         templateResolver.setSuffix(".html");
         return templateResolver;
     }
