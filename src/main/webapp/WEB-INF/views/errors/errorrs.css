@@ -1,0 +1,41 @@
+body {
+    background-color: var(--body-colour);
+    height: 100%;
+    text-align: center;
+
+}
+
+.main {
+    color: var(--text-color);
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    transform: translateY(100%);
+}
+
+.button {
+    border: 1px solid var(--text-color);
+    border-top: transparent;
+    border-bottom: transparent;
+    padding: 0.5%;
+    background-color: var(--support-colur);
+    transition: all 1s;
+}
+
+.button:hover {
+    background-color: var(--body-colour);
+    transition: all 1s;
+}
+
+
+a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+button {
+    background-color: var(--support-colur);
+}
