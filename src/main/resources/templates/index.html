@@ -5,17 +5,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" media="all" href="../../css/global.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="../../css/index.css">
     <title>INDEX PAGE</title>
 </head>
 
 <body>
-    <p id="username" name="username" th:text="${username}"></p>
+
     <form th:method="POST" th:action="@{/logout}">
-        <input type="submit" value="Logout">
+        <span id="username" name="username" th:text="${username}">Yes</span>
+        <input type="submit" value="Logout" class="button">
     </form>
-    <button><a href=" /hi">Go to Hello Page!</a></button>
-    <button><a href="/fruits">Go to Fruits Page!</a></button>
-    <br>
+
+    <div class="button purcahse centered">
+        <p>Buy</p>
+    </div>
+
+    <div class="selection">
+        <span class="item centered">
+            <img src="img.jpg" alt="">
+            <p>Apple</p>
+            <button class="button">Add</button>
+        </span>
+
+    </div>
+
 </body>
 
 </html>

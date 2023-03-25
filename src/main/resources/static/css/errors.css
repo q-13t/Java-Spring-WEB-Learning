@@ -2,7 +2,6 @@ body {
     background-color: var(--body-colour);
     height: 100%;
     text-align: center;
-
 }
 
 .main {
@@ -14,20 +13,6 @@ body {
     flex-wrap: wrap;
     flex-direction: column;
     transform: translateY(100%);
-}
-
-.button {
-    border: 1px solid var(--text-color);
-    border-top: transparent;
-    border-bottom: transparent;
-    padding: 0.5%;
-    background-color: var(--support-colur);
-    transition: all 1s;
-}
-
-.button:hover {
-    background-color: var(--body-colour);
-    transition: all 1s;
 }
 
 

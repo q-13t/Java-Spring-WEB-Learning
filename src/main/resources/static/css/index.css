@@ -1,0 +1,55 @@
+html,
+body {
+    background-color: var(--body-colour);
+    height: 100%;
+    color: var(--text-color);
+
+}
+
+.centered {
+    display: flex;
+    align-content: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+}
+
+.purcahse {
+    position: absolute;
+    top: 1%;
+    right: 1%;
+    height: 24px;
+}
+
+.selection {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    position: relative;
+    top: 2%;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+.item img {
+    width: 15vw;
+}
+
+.item button {
+    padding: 3%;
+}
+
+.item {
+    display: block;
+    height: fit-content;
+    width: fit-content;
+    margin: 0px;
+    padding: 3%;
+    border: solid 1px transparent;
+    border-image: linear-gradient(to right bottom, var(--text-color) 0%, transparent 50%, var(--text-color)) 1 1%;
+
+}
