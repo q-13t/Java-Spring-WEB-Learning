@@ -22,9 +22,12 @@
     </div>
 
     <div class="selection">
-        <span class="item centered">
-            <img src="img.jpg" alt="">
-            <p>Apple</p>
+        <span th:each="fruit : ${fruits}" class="item centered">
+            <img src="" alt="">
+            <!-- <img src="resources/imgs/Avocado.jpg" /> -->
+            <img th:src="@{'imgs/'+${fruit.getImgName()}}">
+            <p th:text="${fruit.getName()}">Name</p>
+            <p th:text="${fruit.getFreshState()}">Fresh</p>
             <button class="button">Add</button>
         </span>
 
