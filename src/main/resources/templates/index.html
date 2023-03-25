@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <p id="username" name="username" th:text="${username}"></p>
     <form th:method="POST" th:action="@{/logout}">
         <input type="submit" value="Logout">
     </form>
@@ -16,6 +17,5 @@
     <button><a href="/fruits">Go to Fruits Page!</a></button>
     <br>
 </body>
-
 
 </html>

@@ -22,7 +22,7 @@ public class SecurityConfig implements WebMvcConfigurer {
         return http.authorizeHttpRequests()
                 .requestMatchers("/fruits", "/fruits/**").hasRole("ADMIN")
                 .requestMatchers("/hi", "/bb").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("/", "/error/**", "/logout").permitAll().and()
+                .requestMatchers("/", "/error/**", "/logout", "/css/**").permitAll().and()
                 .formLogin(login -> login.loginPage("/hello").permitAll())
                 .logout(logout -> logout.permitAll().logoutSuccessUrl("/"))
                 .exceptionHandling(handling -> handling.accessDeniedPage("/error/403"))

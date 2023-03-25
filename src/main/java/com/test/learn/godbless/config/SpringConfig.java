@@ -4,21 +4,25 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.springframework.context.annotation.Bean;
-import org.thymeleaf.spring6.view.ThymeleafViewResolver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 
-@EnableWebMvc
 @Configuration
 @ComponentScan("com.test.learn.godbless")
+@PropertySource("classpath:/application.properties")
 public class SpringConfig implements WebMvcConfigurer {
     private final ApplicationContext applicationContext;
+    @Autowired
+    private Environment env;
 
     public SpringConfig(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
@@ -28,8 +32,8 @@ public class SpringConfig implements WebMvcConfigurer {
     SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(applicationContext);
-        templateResolver.setPrefix("classpath:/templates/");
-        templateResolver.setSuffix(".html");
+        templateResolver.setPrefix(env.getProperty("template.prefix"));
+        templateResolver.setSuffix(env.getProperty("template.sufix"));
         return templateResolver;
     }
 
@@ -51,10 +55,10 @@ public class SpringConfig implements WebMvcConfigurer {
     @Bean
     DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/fruits_db");
-        dataSource.setUsername("root");
-        dataSource.setPassword("099175300");
+        dataSource.setDriverClassName(env.getProperty("server.driver"));
+        dataSource.setUrl(env.getProperty("server.url"));
+        dataSource.setUsername(env.getProperty("server.user"));
+        dataSource.setPassword(env.getProperty("server.password"));
         return dataSource;
     }
 
