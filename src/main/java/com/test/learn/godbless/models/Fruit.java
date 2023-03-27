@@ -4,9 +4,6 @@ import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotEmpty;
-import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class Fruit {
     private int id;
@@ -18,9 +15,6 @@ public class Fruit {
     @NotEmpty(message = "Hey! Gimmi a NAME!")
     @Nonnull
     private String name;
-
-    @Autowired
-    private Environment env;
 
     public String getFreshState() {
         if (fresh)
@@ -77,6 +71,5 @@ public class Fruit {
 
     public String getImgName() {
         return new String(getName() + ".png");
-        // return new String(getName() + env.getProperty("img.format"));
     }
 }

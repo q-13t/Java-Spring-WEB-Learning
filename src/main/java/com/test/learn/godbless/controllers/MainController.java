@@ -2,6 +2,8 @@ package com.test.learn.godbless.controllers;
 
 import org.springframework.ui.Model;
 import com.test.learn.godbless.dao.FruitDAO;
+import com.test.learn.godbless.dao.UserDAO;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.security.core.userdetails.User;
@@ -12,10 +14,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class MainController {
     @Autowired
     private FruitDAO fruitDAO;
+    @Autowired
+    private UserDAO userDAO;
 
     @GetMapping(value = "/")
     public String index(Model model) {
-        // List<Fruit> fruits = ;
+
+        if (!userDAO.testConnection()) {
+            return "redirect:/error/notConnected";
+        }
+
         model.addAttribute("fruits", fruitDAO.getAll());
 
         try {

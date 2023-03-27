@@ -25,7 +25,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .requestMatchers("/", "/error/**", "/logout", "/css/**", "/imgs/**").permitAll().and()
                 .formLogin(login -> login.loginPage("/hello").permitAll())
                 .logout(logout -> logout.permitAll().logoutSuccessUrl("/"))
-                .exceptionHandling(handling -> handling.accessDeniedPage("/error/403"))
+                .exceptionHandling(handling -> handling.accessDeniedPage("/error/forbidden"))
                 .build();
     }
 

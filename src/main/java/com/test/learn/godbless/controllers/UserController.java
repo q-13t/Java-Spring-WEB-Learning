@@ -13,9 +13,14 @@ public class UserController {
         return new String("loginOrRegister");
     }
 
-    @GetMapping(value = "/error/403")
+    @GetMapping(value = "/error/forbidden")
     public String denied() {
         return new String("/errors/forbidden");
+    }
+
+    @GetMapping(value = "/error/notConnected")
+    public String notConnected() {
+        return new String("/errors/connection");
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
