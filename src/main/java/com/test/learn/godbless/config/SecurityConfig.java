@@ -7,7 +7,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,7 +22,7 @@ public class SecurityConfig implements WebMvcConfigurer {
         return http.authorizeHttpRequests()
                 .requestMatchers("/fruits", "/fruits/**").hasRole("ADMIN")
                 .requestMatchers("/hi", "/bb").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("/", "/error/**", "/logout", "/css/**", "/imgs/**").permitAll().and()
+                .requestMatchers("/", "/error/**", "/logout", "/css/**", "/imgs/**", "/register").permitAll().and()
                 .formLogin(login -> login.loginPage("/hello").permitAll())
                 .logout(logout -> logout.permitAll().logoutSuccessUrl("/"))
                 .exceptionHandling(handling -> handling.accessDeniedPage("/error/forbidden"))
@@ -37,6 +37,7 @@ public class SecurityConfig implements WebMvcConfigurer {
 
     @Bean
     PasswordEncoder getPasswordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
+        // return NoOpPasswordEncoder.getInstance();
     }
 }

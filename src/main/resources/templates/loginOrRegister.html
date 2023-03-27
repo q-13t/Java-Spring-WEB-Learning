@@ -31,16 +31,17 @@
         </div>
 
         <div class="registration-div">
-            <form name="f" th:action="@{/register}" method="post">
+            <form name="f" th:action="@{/register}" method="post" th:object="${user}">
                 <!-- <legend>Or Register</legend> -->
                 <h3>Or Register</h3>
                 <div th:if="${reg_error}" class="alert alert-error">
                     Username taken!
                 </div>
-                <input type="text" id="username_register" th:value="${username_register}" name="username_register"
-                    placeholder="User Name" />
+                <input type="text" id="username_register" th:field="*{username}" th:value="${username_register}"
+                    name="username_register" placeholder="User Name" />
                 <br>
-                <input type="password" id="password_register" name="password_register" placeholder="Password" />
+                <input type="password" id="password_register" th:field="*{password}" name="password_register"
+                    placeholder="Password" />
                 <div class="form-actions">
                     <button type="submit" class="btn">Register</button>
                 </div>
