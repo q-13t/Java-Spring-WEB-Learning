@@ -80,3 +80,7 @@ form {
 .item-selected {
     border: solid 1px;
 }
+
+.user-highlight {
+    color: var(--highlight-color);
+}

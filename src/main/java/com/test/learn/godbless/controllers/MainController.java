@@ -27,13 +27,12 @@ public class MainController {
         try {
             String user = SecurityContextHolder.getContext().getAuthentication().getName();
             if (user != "anonymousUser") {
-                model.addAttribute("username", "Logged in as: " + user);
-            } else {
-                model.addAttribute("username", "Not Logged In!");
+                model.addAttribute("username", user);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println(model.getAttribute("username"));
         return "index";
     }
 

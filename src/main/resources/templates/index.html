@@ -13,13 +13,24 @@
 
 <body>
     <div class="menu-top">
-        <form th:method="POST" th:action="@{/logout}">
-            <span id="username" name="username" th:text="${username}">Not Logged In!</span>
-            <input type="submit" value="Logout" class="button">
-        </form>
+
+        <div class="user-data">
+            <span th:if="${username == null}" class="user-highlight">
+                Not Logged In!
+            </span>
+            <span th:if="${username != null}">Logged In As:
+                <span id="username" name="username" class="user-highlight" th:text="${username}">Not Logged In!</span>
+            </span>
+            <form th:method="POST" th:action="@{/logout}" th:if="${username != null}">
+                <input type="submit" value="Logout" class="button">
+            </form>
+            <form th:method="POST" th:action="@{/login}" th:if="${username == null}">
+                <input type="submit" value="Login" class="button">
+            </form>
+        </div>
+
         <div class="purchase-data centered">
             <span id="item_count" class="item-count">0</span>
-
             <span class="button">
                 <a href="/hi">Buy</a>
             </span>

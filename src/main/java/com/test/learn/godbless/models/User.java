@@ -2,11 +2,9 @@ package com.test.learn.godbless.models;
 
 import java.util.ArrayList;
 
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public class User {
     @NotBlank(message = "UserName Can't be empty!")
