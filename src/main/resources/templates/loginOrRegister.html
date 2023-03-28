@@ -36,9 +36,14 @@
                 <div th:if="${reg_error}" class="alert alert-error">
                     Username taken!
                 </div>
+                <div style="color: var(--highlight-color);" th:if="${#fields.hasErrors('username')}"
+                    th:errors="*{username}">Username error
+                </div>
                 <input type="text" id="username_register" th:field="*{username}" th:value="${username_register}"
                     name="username_register" placeholder="User Name" />
                 <br>
+                <div style="color: var(--highlight-color);" th:if="${#fields.hasErrors('password')}"
+                    th:errors="*{password}">Password error</div>
                 <input type="password" id="password_register" th:field="*{password}" name="password_register"
                     placeholder="Password" />
                 <div class="form-actions">

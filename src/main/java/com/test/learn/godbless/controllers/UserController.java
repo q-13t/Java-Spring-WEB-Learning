@@ -1,12 +1,15 @@
 package com.test.learn.godbless.controllers;
 
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.test.learn.godbless.dao.UserDAO;
 import com.test.learn.godbless.models.User;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class UserController {
@@ -34,10 +37,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String register(@ModelAttribute(value = "user") User user, Model model) {
+    public String register(@ModelAttribute(value = "user") @Valid User user, BindingResult bindingResult, Model model) {
         System.out.println("register");
         System.out.println("USER-> " + user.getUsername() + " | " + user.getPassword());
-        userDAO.register(user);
+        if (!bindingResult.hasErrors()) {
+            userDAO.register(user);
+        } else {
+            return "loginOrRegister";
+        }
 
         return new String("redirect:/");
     }
