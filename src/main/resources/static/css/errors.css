@@ -14,13 +14,3 @@ body {
     flex-direction: column;
     transform: translateY(100%);
 }
-
-
-a {
-    color: var(--text-color);
-    text-decoration: none;
-}
-
-button {
-    background-color: var(--support-colur);
-}

@@ -21,3 +21,12 @@ div {
     align-items: center;
     text-align: center;
 }
+
+
+input {
+    background-color: var(--support-colur);
+    color: var(--text-color);
+    border: 1px solid;
+    border-top: transparent;
+    border-bottom: transparent;
+}

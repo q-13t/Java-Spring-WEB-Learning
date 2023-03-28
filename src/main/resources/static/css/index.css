@@ -3,7 +3,7 @@ body {
     background-color: var(--body-colour);
     height: 100%;
     color: var(--text-color);
-
+    margin: 0px;
 }
 
 .centered {
@@ -16,12 +16,31 @@ body {
     text-align: center;
 }
 
-.purcahse {
-    position: absolute;
-    top: 1%;
-    right: 1%;
+form {
+    width: 15vw;
+}
+
+.menu-top {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    margin: 0px;
+    position: sticky;
+    top: 0px;
+    z-index: 1;
+    height: min-content;
+    background: var(--support-colur);
+}
+
+.purchase-data {
+    width: 5%;
     height: 24px;
 }
+
 
 .selection {
     display: grid;
@@ -56,4 +75,8 @@ body {
     justify-content: space-around;
     flex-wrap: wrap;
     flex-direction: column;
+}
+
+.item-selected {
+    border: solid 1px;
 }

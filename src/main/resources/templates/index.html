@@ -7,19 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" media="all" href="../../css/global.css" />
     <link rel="stylesheet" type="text/css" media="all" href="../../css/index.css">
-    <title>INDEX PAGE</title>
+    <script type="text/javascript" th:src="@{/js/index.js}"></script>
+    <title>XD Shop</title>
 </head>
 
 <body>
+    <div class="menu-top">
+        <form th:method="POST" th:action="@{/logout}">
+            <span id="username" name="username" th:text="${username}">Not Logged In!</span>
+            <input type="submit" value="Logout" class="button">
+        </form>
+        <div class="purchase-data centered">
+            <span id="item_count" class="item-count">0</span>
 
-    <form th:method="POST" th:action="@{/logout}">
-        <span id="username" name="username" th:text="${username}">Yes</span>
-        <input type="submit" value="Logout" class="button">
-    </form>
-
-    <div class="button purcahse centered">
-        <p>Buy</p>
+            <span class="button">
+                <a href="/hi">Buy</a>
+            </span>
+        </div>
     </div>
+
 
     <div class="selection">
         <span th:each="fruit : ${fruits}" class="item centered">
@@ -28,7 +34,7 @@
             <img th:src="@{'imgs/'+${fruit.getImgName()}}">
             <p th:text="${fruit.getName()}">Name</p>
             <p th:text="${fruit.getFreshState()}">Fresh</p>
-            <button class="button">Add</button>
+            <button th:id="${fruit.getId()}" class="button" onclick="addThisItem(this)">Add</button>
         </span>
 
     </div>
