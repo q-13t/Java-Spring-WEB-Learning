@@ -1,7 +1,5 @@
 package com.test.learn.godbless.models;
 
-import java.io.File;
-
 import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotNull;
