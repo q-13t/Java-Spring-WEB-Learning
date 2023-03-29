@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" media="all" href="../../css/global.css" th:href="@{/css/global.css}" />
+    <link rel="stylesheet" type="text/css" media="all" href="../../css/admin.css" th:href="@{/css/admin.css}" />
+    <title>Admin Page</title>
+</head>
+
+<body>
+    <div class="to-main button "><a href="/">Return To Main Page</a></div>
+    <div class="selector even-spacing">
+        <span class="item button"><a href="/admin/users">Users</a></span>
+        <span class="item button"><a href="/admin/products">Products</a></span>
+    </div>
+    <div class="contetm-helder">
+        <div th:if="${display == 'users'}" class="users">
+
+            <form th:each="user : ${users}" th:action="@{/admin/updateUser}" th:method="post" th:object="${user}">
+                <input th:type="hidden" th:name="user-pre" th:value="${user.getUsername()}">
+                <fieldset class="border-spacing">
+                    <legend th:text="${user.getUsername()}"></legend>
+                    <div class="user-data">
+                        <label for="username">Username: </label>
+                        <input type="text" name="username" id="username" th:filed="*{username}"
+                            th:value="${user.getUsername()}">
+                        <br>
+                        <label for="password">Password: </label>
+                        <input type="text" name="password" id="password" th:filed="*{password}"
+                            th:value="${user.getPassword()}">
+                        <br>
+                        <input type="submit" value="Save!">
+                    </div>
+                    <div class="user-authorities">
+                        <fieldset>
+                            <legend th:text="Authorities"></legend>
+                            <div th:each="authority : ${authorities}">
+                                <input th:type="radio" th:name="authority"
+                                    th:id="'user:'+${user.getUsername()}+' role: '+${authority}" th:value="${authority}"
+                                    th:checked="${user.getAuthority().contains(authority)}">
+                                <label th:for="'user:'+${user.getUsername()}+' role: '+${authority}"
+                                    th:text="${authority}"></label>
+                                <br>
+                            </div>
+                        </fieldset>
+                    </div>
+                </fieldset>
+            </form>
+
+        </div>
+        <div th:if="${display == 'products'}" class="products"></div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+.to-main {
+    display: inline;
+}
+
+fieldset {
+    border-color: var(--text-color);
+}
+
+.user-authorities fieldset {
+    width: 20vw;
+}

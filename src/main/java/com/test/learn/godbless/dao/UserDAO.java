@@ -1,21 +1,23 @@
 package com.test.learn.godbless.dao;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import com.test.learn.godbless.config.UserAuthenticator;
 import com.test.learn.godbless.models.User;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 @Component
 public class UserDAO {
@@ -65,6 +67,17 @@ public class UserDAO {
             return false;
         }
         return true;
+    }
+
+    public List<SimpleGrantedAuthority> getAllAuthorities() {
+        return jdbctemplate.queryForList("SELECT DISTINCT authority from authorities;", SimpleGrantedAuthority.class);
+    }
+
+    public List<User> getAllUsers() {
+        testConnection();
+        return jdbctemplate.query(
+                "SELECT u.username, u.password, a.authority FROM users u INNER JOIN authorities a ON a.username = u.username;",
+                new BeanPropertyRowMapper<>(User.class));
     }
 
     public boolean testConnection() {

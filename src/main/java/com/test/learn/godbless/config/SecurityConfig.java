@@ -20,8 +20,8 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Bean
     SecurityFilterChain httpSecurity(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests()
-                .requestMatchers("/fruits", "/fruits/**").hasRole("ADMIN")
-                .requestMatchers("/hi", "/bb").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                // .requestMatchers("/hi", "/bb").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/", "/error/**", "/logout", "/css/**", "/js/**", "/imgs/**", "/register").permitAll()
                 .and()
                 .formLogin(login -> login.loginPage("/hello").permitAll())

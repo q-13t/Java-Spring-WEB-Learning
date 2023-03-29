@@ -5,6 +5,12 @@
     --highlight-color: rgb(173, 193, 40);
 }
 
+html,
+body {
+    background-color: var(--body-colour);
+    color: var(--text-color);
+}
+
 .button {
     border: 1px solid var(--text-color);
     border-top: transparent;
@@ -32,4 +38,31 @@ a {
 * {
     font-size: 20px;
     margin: 1%;
+}
+
+.even-spacing {
+    display: flex;
+    align-content: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+}
+
+.border-spacing {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+
+input {
+    background-color: var(--support-colur);
+    color: var(--text-color);
+    border: 1px solid;
+    border-top: transparent;
+    border-bottom: transparent;
 }
