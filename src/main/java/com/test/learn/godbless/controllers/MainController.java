@@ -32,7 +32,7 @@ public class MainController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(model.getAttribute("username"));
+        // System.out.println(model.getAttribute("username"));
         return "index";
     }
 

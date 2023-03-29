@@ -41,8 +41,8 @@
     <div class="selection">
         <span th:each="fruit : ${fruits}" class="item centered">
             <img src="" alt="">
-            <!-- <img src="resources/imgs/Avocado.jpg" /> -->
-            <img th:src="@{'imgs/'+${fruit.getImgName()}}">
+            <img
+                th:src="(${fruit.getImgName() ne null}) ? (@{'imgs/' + ${fruit.getImgName()} +'.png'}) : (@{imgs/Default.png})">
             <p th:text="${fruit.getName()}">Name</p>
             <p th:text="${fruit.getFreshState()}">Fresh</p>
             <button th:id="${fruit.getId()}" class="button" onclick="addThisItem(this)">Add</button>

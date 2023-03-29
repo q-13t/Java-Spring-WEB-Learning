@@ -1,5 +1,7 @@
 package com.test.learn.godbless.models;
 
+import java.io.File;
+
 import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotNull;
@@ -15,6 +17,8 @@ public class Fruit {
     @NotEmpty(message = "Hey! Gimmi a NAME!")
     @Nonnull
     private String name;
+
+    private String image;
 
     public String getFreshState() {
         if (fresh)
@@ -70,6 +74,11 @@ public class Fruit {
     }
 
     public String getImgName() {
-        return new String(getName() + ".png");
+        // System.out.println(image);
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

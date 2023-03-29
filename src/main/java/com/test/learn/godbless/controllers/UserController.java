@@ -18,7 +18,7 @@ public class UserController {
 
     @GetMapping(value = "/hello")
     public String loginOrRegisterDisplay(Model model) {
-        System.out.println("login");
+        // System.out.println("login");
         model.addAttribute("user", new User());
         return new String("loginOrRegister");
     }
@@ -38,8 +38,9 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(@ModelAttribute(value = "user") @Valid User user, BindingResult bindingResult, Model model) {
-        System.out.println("register");
-        System.out.println("USER-> " + user.getUsername() + " | " + user.getPassword());
+        // System.out.println("register");
+        // System.out.println("USER-> " + user.getUsername() + " | " +
+        // user.getPassword());
         if (!bindingResult.hasErrors()) {
             userDAO.register(user);
         } else {

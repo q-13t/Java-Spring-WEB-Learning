@@ -13,8 +13,6 @@ where o.id =1;
 
 SELECT COUNT(*) col FROM dual WHERE 1=0;
 
-
-
 SELECT u.username,u.password,a.authority FROM users u
 INNER JOIN authorities a ON a.username = u.username
 WHERE u.username="user";
