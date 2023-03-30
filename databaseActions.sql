@@ -23,6 +23,8 @@ DELETE FROM users where username NOT IN("admin","user");
 SELECT * FROM users u
 INNER JOIN authorities a ON a.username = u.username;
 
+SELECT u.username, u.password FROM users u;
 
-INSERT INTO users(username,password,enabled) values("admin","admin","Y");
-INSERT INTO authorities(username,authority) values("abc","ROLE_USER");
+SELECT DISTINCT authority from authorities;
+
+

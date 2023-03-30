@@ -16,10 +16,16 @@
         <span class="item button"><a href="/admin/users">Users</a></span>
         <span class="item button"><a href="/admin/products">Products</a></span>
     </div>
-    <div class="contetm-helder">
+    <div class="content-helder">
         <div th:if="${display == 'users'}" class="users">
-
-            <form th:each="user : ${users}" th:action="@{/admin/updateUser}" th:method="post" th:object="${user}">
+            <form th:action="@{/admin/findUser}" th:method="post">
+                <label for="username_search">Username: </label>
+                <input type="text" name="username_search" id="username_search">
+                <input type="submit" value="Find">
+            </form>
+            <p th:if="${hint ne null}" th:text="${hint}" class="hint"></p>
+            <form th:if="${users} ne null" th:each="user : ${users}" th:action="@{/admin/updateUser}" th:method="post"
+                th:object="${user}">
                 <input th:type="hidden" th:name="user-pre" th:value="${user.getUsername()}">
                 <fieldset class="border-spacing">
                     <legend th:text="${user.getUsername()}"></legend>
@@ -32,7 +38,8 @@
                         <input type="text" name="password" id="password" th:filed="*{password}"
                             th:value="${user.getPassword()}">
                         <br>
-                        <input type="submit" value="Save!">
+                        <input type="submit" value="Save!" name="action">
+                        <input type="submit" value="Delete!" name="action">
                     </div>
                     <div class="user-authorities">
                         <fieldset>

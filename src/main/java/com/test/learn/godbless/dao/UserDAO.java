@@ -80,6 +80,16 @@ public class UserDAO {
                 new BeanPropertyRowMapper<>(User.class));
     }
 
+    public User getByUsername(String username) {
+        try {
+            return jdbctemplate.queryForObject(
+                    "SELECT u.username, u.password, a.authority FROM users u INNER JOIN authorities a ON a.username = u.username WHERE u.USERNAME = ?;",
+                    new BeanPropertyRowMapper<>(User.class), username);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public boolean testConnection() {
         try {
             jdbctemplate.query("SELECT 1 FROM fruit;", new BeanPropertyRowMapper<>(String.class));
@@ -88,4 +98,22 @@ public class UserDAO {
         }
         return true;
     }
+
+    public void deleteUserByName(String original_user) {
+        jdbctemplate.update("DELETE FROM authorities where username = ?;", original_user);
+        jdbctemplate.update("DELETE FROM users where username = ?;", original_user);
+    }
+
+    public void updateUserByName(String original_user, User user) {
+        jdbctemplate.update("SET GLOBAL FOREIGN_KEY_CHECKS=0;");
+
+        jdbctemplate.update(
+                "update users u Inner JOIN authorities a ON a.username = u.username set  u.username = ?, a.username =?, u.password = ?, a.authority = ? where u.username =  ?;",
+                user.getUsername(), user.getUsername(), user.getPassword(), user.getAuthority().get(0).getAuthority(),
+                original_user);
+
+        jdbctemplate.update("SET GLOBAL FOREIGN_KEY_CHECKS=1;");
+
+    }
+
 }
