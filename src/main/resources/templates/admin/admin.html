@@ -67,9 +67,11 @@
                     <img th:id="'display'+ ${fruit.getId()}"
                         th:src="(${fruit.getImgName() != null}) ? (@{'/imgs/' + ${fruit.getImgName()} +'.png'}) : (@{/imgs/Default.png})">
                     <span class="product-info">
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="hint"></p>
                         <label for="fruit-name">Name</label>
                         <input type="text" name="fruit-name" id="fruit-name" th:field="*{name}">
                         <br>
+                        <p th:if="${#fields.hasErrors('fresh')}" th:errors="*{fresh}" class="hint"></p>
                         <span th:each="fresh : ${freshness}">
                             <input th:type="radio" th:name="fresh"
                                 th:id="${fruit.getId() + ' ' + fruit.getFreshState(fresh)}" th:value="${fresh}"

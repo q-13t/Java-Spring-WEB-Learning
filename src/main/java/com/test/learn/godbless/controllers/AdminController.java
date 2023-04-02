@@ -2,6 +2,7 @@ package com.test.learn.godbless.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +23,8 @@ import com.test.learn.godbless.dao.FruitDAO;
 import com.test.learn.godbless.dao.UserDAO;
 import com.test.learn.godbless.models.Fruit;
 import com.test.learn.godbless.models.User;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/admin")
@@ -140,10 +144,15 @@ public class AdminController {
     }
 
     @PostMapping("/addNewProduct")
-    public String addProduct(@ModelAttribute("fruit") Fruit fruit,
+    public String addProduct(@ModelAttribute("fruit") @Valid Fruit fruit, BindingResult result,
             @RequestParam("image-input") MultipartFile image,
             Model model) throws IOException {
-
+        if (result.hasErrors()) {
+            model.addAttribute("display", "new-product");
+            model.addAttribute("fruit", fruit);
+            model.addAttribute("freshness", fruitDAO.getAllFreshStates());
+            return "admin/admin";
+        }
         String imagePath = new ClassPathResource("static/imgs/").getFile().getAbsolutePath() + "/";
         String img_name = image.getOriginalFilename();
         if (img_name != null && !img_name.equals("")) {
