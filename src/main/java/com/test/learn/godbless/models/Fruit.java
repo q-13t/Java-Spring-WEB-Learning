@@ -25,6 +25,13 @@ public class Fruit {
         return "Moldy";
     }
 
+    public String getFreshState(Boolean i) {
+        if (i)
+            return "Fresh";
+
+        return "Moldy";
+    }
+
     public boolean isFresh() {
         return fresh;
     }
@@ -68,11 +75,10 @@ public class Fruit {
 
     @Override
     public String toString() {
-        return "\nFruit:\t[" + "Id-> " + id + " Name-> " + name + " Fresh-> " + fresh + "]";
+        return "Fruit:\t[" + "Id-> " + id + " Name-> " + name + " Fresh-> " + fresh + " image -> " + image + "]";
     }
 
     public String getImgName() {
-        // System.out.println(image);
         return image;
     }
 

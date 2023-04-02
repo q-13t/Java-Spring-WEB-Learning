@@ -9,3 +9,14 @@ fieldset {
 .user-authorities fieldset {
     width: 20vw;
 }
+
+img {
+    width: 15vw;
+    height: 15vh;
+    display: inline-block;
+}
+
+.product-info {
+    display: inline-block;
+    vertical-align: top;
+}

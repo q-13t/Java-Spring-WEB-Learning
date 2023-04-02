@@ -22,7 +22,7 @@ public class MainController {
             return "redirect:/error/notConnected";
         }
 
-        model.addAttribute("fruits", fruitDAO.getAll());
+        model.addAttribute("fruits", fruitDAO.getAllFruits());
 
         try {
             String user = SecurityContextHolder.getContext().getAuthentication().getName();

@@ -1,6 +1,8 @@
 package com.test.learn.godbless.dao;
 
 import java.util.List;
+
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -16,19 +18,35 @@ public class FruitDAO {
         jdbcTemplate = template;
     }
 
-    public List<Fruit> getAll() {
+    public List<Fruit> getAllFruits() {
         return jdbcTemplate.query("SELECT * FROM fruit;", new BeanPropertyRowMapper<>(Fruit.class));
     }
 
     public Fruit getById(int id) {
-        return jdbcTemplate.queryForObject(
-                "SELECT * FROM fruit WHERE id=?;",
-                new BeanPropertyRowMapper<>(Fruit.class),
-                id);
+        try {
+            return jdbcTemplate.queryForObject(
+                    "SELECT * FROM fruit WHERE id=?;",
+                    new BeanPropertyRowMapper<>(Fruit.class),
+                    id);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public Fruit getByName(String name) {
+        try {
+            return jdbcTemplate.queryForObject(
+                    "SELECT * FROM fruit WHERE name=?;",
+                    new BeanPropertyRowMapper<>(Fruit.class),
+                    name);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public void add(Fruit fruit) {
-        jdbcTemplate.update("INSERT INTO fruit(name,fresh) VALUE(?,?)", fruit.getName(), fruit.isFresh());
+        jdbcTemplate.update("INSERT INTO fruit(name,fresh,image) VALUE(?,?,?)", fruit.getName(), fruit.isFresh(),
+                fruit.getImgName());
     }
 
     public void update(Fruit fruit) {
@@ -36,7 +54,27 @@ public class FruitDAO {
                 fruit.getId());
     }
 
+    public void updateById(int id, Fruit fruit) {
+        jdbcTemplate.update("update fruit set name=?, fresh = ?, image =? where id = ?;", fruit.getName(),
+                fruit.isFresh(), fruit.getImgName().equals("") ? null : fruit.getImgName(), id);
+    }
+
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM fruit WHERE id = ?;", id);
     }
+
+    public List<Boolean> getAllFreshStates() {
+        List<Boolean> freshFruits = null;
+
+        try {
+            freshFruits = jdbcTemplate.query(
+                    "SELECT DISTINCT fresh FROM fruit",
+                    (rs, rowNum) -> rs.getBoolean("fresh"));
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
+
+        return freshFruits;
+    }
+
 }

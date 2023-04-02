@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" media="all" href="../../css/global.css" th:href="@{/css/global.css}" />
     <link rel="stylesheet" type="text/css" media="all" href="../../css/admin.css" th:href="@{/css/admin.css}" />
+    <script type="text/javascript" th:src="@{/js/admin.js}"></script>
     <title>Admin Page</title>
 </head>
 
@@ -56,9 +57,86 @@
                     </div>
                 </fieldset>
             </form>
+        </div>
+
+        <div th:if="${display == 'new-product'}">
+
+            <form th:action="@{/admin/addNewProduct}" th:method="post" th:object="${fruit}"
+                enctype="multipart/form-data">
+                <fieldset>
+                    <img th:id="'display'+ ${fruit.getId()}"
+                        th:src="(${fruit.getImgName() != null}) ? (@{'/imgs/' + ${fruit.getImgName()} +'.png'}) : (@{/imgs/Default.png})">
+                    <span class="product-info">
+                        <label for="fruit-name">Name</label>
+                        <input type="text" name="fruit-name" id="fruit-name" th:field="*{name}">
+                        <br>
+                        <span th:each="fresh : ${freshness}">
+                            <input th:type="radio" th:name="fresh"
+                                th:id="${fruit.getId() + ' ' + fruit.getFreshState(fresh)}" th:value="${fresh}"
+                                th:checked="${fruit.getFreshState() eq fruit.getFreshState(fresh)}">
+
+                            <label th:for="${fruit.getId() + ' ' + fruit.getFreshState(fresh)}"
+                                th:text="${fruit.getFreshState(fresh)}"></label>
+                        </span>
+                        <input th:id="'display-in'+ ${fruit.getId()}" onchange="handleFile(this)" type="file"
+                            name="image-input" accept="image/png" th:value="@{/imgs/__${fruit.getImgName()}__.png}"><br>
+                        <input type="submit" value="save!" name="save">
+                    </span>
+                </fieldset>
+            </form>
 
         </div>
-        <div th:if="${display == 'products'}" class="products"></div>
+
+        <div th:if="${display == 'products'}" class="products">
+            <form th:action="@{/admin/findProduct}" th:method="post">
+                <input type="text" name="product-search" id="product-search">
+                <input type="submit" value="Find!" name="search-type">
+            </form>
+            <button type="button" onclick="location.href='/admin/displayNewProduct'" class="button"
+                style="width: -webkit-fill-available;">Add New
+                Product!</button>
+
+            <p th:if="${hint ne null}" th:text="${hint}" class="hint"></p>
+
+            <form th:if="${fruits} ne null" th:each="fruit : ${fruits}" th:action="@{/admin/updateProduct}"
+                th:method="post" th:object="${fruit}" enctype="multipart/form-data">
+                <input type="hidden" name="product-original" th:value="${fruit.getId()}">
+                <fieldset>
+                    <legend th:text="${fruit.getId()}+' | '+${fruit.getName()}"></legend>
+
+                    <input type="hidden" name="id" th:value="${fruit.getId()}">
+                    <input type="hidden" name="image" th:value="${fruit.getImgName()}">
+
+                    <img th:id="'display'+ ${fruit.getId()}"
+                        th:src="(${fruit.getImgName() != null}) ? (@{'/imgs/' + ${fruit.getImgName()} +'.png'}) : (@{/imgs/Default.png})">
+
+                    <span class="product-info">
+                        <label th:for="${fruit.getName()}">Name: </label>
+                        <input type="text" name="name" th:id="${fruit.getName()}" th:filed="*{name}"
+                            th:value="${fruit.getName()}">
+                        <div class="freshnress">
+
+                            <span th:each="fresh : ${freshness}">
+                                <input th:type="radio" th:name="fresh"
+                                    th:id="${fruit.getId() + ' ' + fruit.getFreshState(fresh)}" th:value="${fresh}"
+                                    th:checked="${ fruit.getFreshState() eq fruit.getFreshState(fresh)}">
+
+                                <label th:for="${fruit.getId() + ' ' + fruit.getFreshState(fresh)}"
+                                    th:text="${fruit.getFreshState(fresh)}"></label>
+
+                            </span>
+                        </div>
+
+                        <input th:id="'display-in'+ ${fruit.getId()}" onchange="handleFile(this)" type="file"
+                            name="image-input" accept="image/png" th:value="@{/imgs/__${fruit.getImgName()}__.png}">
+                        <div>
+                            <input type="submit" value="Save!" name="action">
+                            <input type="submit" value="Delete!" name="action">
+                        </div>
+                    </span>
+                </fieldset>
+            </form>
+        </div>
     </div>
 </body>
 

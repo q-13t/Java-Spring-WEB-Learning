@@ -25,7 +25,7 @@ public class FruitsController {
     @GetMapping(value = "")
     public String index(@RequestParam(value = "id", defaultValue = "-1") int id, Model model) {
         if (id < 0) {
-            model.addAttribute("fruits", fruitDAO.getAll());
+            model.addAttribute("fruits", fruitDAO.getAllFruits());
         } else {
             model.addAttribute("fruits", fruitDAO.getById(id));
         }
