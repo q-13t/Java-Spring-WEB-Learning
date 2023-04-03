@@ -37,8 +37,11 @@ form {
 }
 
 .purchase-data {
-    width: 5%;
+    width: 7%;
     height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 
@@ -83,4 +86,28 @@ form {
 
 .user-highlight {
     color: var(--highlight-color);
+}
+
+.quantity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes add_animation {
+    from {
+        color: var(--body-colour);
+    }
+
+    to {
+        color: var(--highlight-color);
+    }
+}
+
+.play-add_animation {
+    animation: add_animation 500ms ease 0ms 1 normal forwards;
+}
+
+.item-count {
+    color: var(--text-color);
 }

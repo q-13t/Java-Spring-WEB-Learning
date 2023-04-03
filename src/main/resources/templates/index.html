@@ -29,7 +29,7 @@
             </form>
         </div>
 
-        <div class="purchase-data centered">
+        <div class="purchase-data">
             <span id="item_count" class="item-count">0</span>
             <span class="button">
                 <a href="/hi">Buy</a>
@@ -45,6 +45,12 @@
                 th:src="(${fruit.getImgName() ne null}) ? (@{'imgs/' + ${fruit.getImgName()} +'.png'}) : (@{imgs/Default.png})">
             <p th:text="${fruit.getName()}">Name</p>
             <p th:text="${fruit.getFreshState()}">Fresh</p>
+            <div class="quantity">
+                <input type="button" th:id="${fruit.getId()+'sub'}" th:value="'-'" onclick="updateQuantity(this)">
+                <input type="number" min="0" max="1000" name="order-quantity" th:id="${fruit.getId()+'quantity'}"
+                    value="0" oninput="validateNumber(this)">
+                <input type="button" th:id="${fruit.getId()+'add'}" th:value="'+'" onclick="updateQuantity(this)">
+            </div>
             <button th:id="${fruit.getId()}" class="button" onclick="addThisItem(this)">Add</button>
         </span>
 
