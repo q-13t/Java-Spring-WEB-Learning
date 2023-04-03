@@ -36,14 +36,6 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/hi")
-    public String hello() {
-        return "main/hello";
-    }
-
-    @GetMapping("/bb")
-    public String bbye() {
-        return "main/bye";
-    }
+  
 
 }

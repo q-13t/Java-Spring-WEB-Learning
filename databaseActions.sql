@@ -23,8 +23,24 @@ DELETE FROM users where username NOT IN("admin","user");
 SELECT * FROM users u
 INNER JOIN authorities a ON a.username = u.username;
 
-SELECT u.username, u.password FROM users u;
 
-SELECT DISTINCT authority from authorities;
+SET GLOBAL FOREIGN_KEY_CHECKS=1;
+update authorities set username = "Nyan" Where username = "quack";
+
+update users u
+Inner JOIN authorities a ON a.username = u.username
+set 
+	u.username = "Nyan",
+	a.username = "Nyan",
+    u.password = "abc",
+    a.authority = "ROLE_ADMIN"
+where u.username =  "quack";
+
+SET FOREIGN_KEY_CHECKS=0;
+
+update fruit set image = "Kiwi" where id = 8;
+
+Delete from fruits_db.order;
+
 
 
