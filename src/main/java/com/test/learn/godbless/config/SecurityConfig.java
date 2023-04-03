@@ -21,8 +21,8 @@ public class SecurityConfig implements WebMvcConfigurer {
     SecurityFilterChain httpSecurity(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                // .requestMatchers("/hi", "/bb").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("/", "/error/**", "/logout", "/css/**", "/js/**", "/imgs/**", "/register").permitAll()
+                .requestMatchers("/", "/error/**", "/logout", "/css/**", "/js/**", "/imgs/**", "/register", "/purchase")
+                .permitAll()
                 .and()
                 .formLogin(login -> login.loginPage("/hello").permitAll())
                 .logout(logout -> logout.permitAll().logoutSuccessUrl("/"))
@@ -39,6 +39,5 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Bean
     PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
-        // return NoOpPasswordEncoder.getInstance();
     }
 }

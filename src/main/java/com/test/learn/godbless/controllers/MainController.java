@@ -1,12 +1,19 @@
 package com.test.learn.godbless.controllers;
 
-import org.springframework.ui.Model;
-import com.test.learn.godbless.dao.FruitDAO;
-import com.test.learn.godbless.dao.UserDAO;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import java.util.HashMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.test.learn.godbless.dao.FruitDAO;
+import com.test.learn.godbless.dao.UserDAO;
 
 @Controller
 public class MainController {
@@ -32,10 +39,21 @@ public class MainController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // System.out.println(model.getAttribute("username"));
         return "index";
     }
 
-  
+    @PostMapping("/purchase")
+    public String processPurchaseData(@RequestParam("order-data") String mapString, Model model) {
+        HashMap<Integer, Integer> order = Stream.of(mapString.split(","))
+                .map(x -> x.split(":"))
+                .collect(Collectors.toMap(
+                        x -> Integer.parseInt(x[0]),
+                        x -> Integer.parseInt(x[1]),
+                        (a, b) -> a,
+                        HashMap::new));
 
+        order.forEach((fruitId, amount) -> System.out.println(fruitId + " " + amount));
+
+        return "confirmOrder";
+    }
 }

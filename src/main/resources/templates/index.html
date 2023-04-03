@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" media="all" href="../../css/global.css" />
     <link rel="stylesheet" type="text/css" media="all" href="../../css/index.css">
     <script type="text/javascript" th:src="@{/js/index.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.js"
+        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
     <title>Fruit Shop XXX</title>
 </head>
 
@@ -29,16 +31,15 @@
             </form>
         </div>
 
-        <div class="purchase-data">
+        <form id="purchase-form" th:action="@{/purchase}" method="POST" class="purchase-data">
+            <input type="hidden" id="order-data" name="order-data">
             <span id="item_count" class="item-count">0</span>
-            <span class="button">
-                <a href="/hi">Buy</a>
-            </span>
-        </div>
+            <button class="button" onclick="purchase()">Buy</button>
+        </form>
     </div>
 
 
-    <div class="selection">
+    <div class=" selection">
         <span th:each="fruit : ${fruits}" class="item centered">
             <img src="" alt="">
             <img
@@ -48,7 +49,7 @@
             <div class="quantity">
                 <input type="button" th:id="${fruit.getId()+'sub'}" th:value="'-'" onclick="updateQuantity(this)">
                 <input type="number" min="0" max="1000" name="order-quantity" th:id="${fruit.getId()+'quantity'}"
-                    value="0" oninput="validateNumber(this)">
+                    value="1" oninput="validateNumber(this)">
                 <input type="button" th:id="${fruit.getId()+'add'}" th:value="'+'" onclick="updateQuantity(this)">
             </div>
             <button th:id="${fruit.getId()}" class="button" onclick="addThisItem(this)">Add</button>
