@@ -8,11 +8,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public class User {
     @NotBlank(message = "UserName Can't be empty!")
-    @Size(min = 4, max = 20, message = "UserName length must be beetween 4 and 20 caracters!")
+    @Size(min = 4, max = 20, message = "UserName length must be between 4 and 20 characters!")
     private String username;
 
-    @NotBlank(message = "Password Is Requiered!")
-    @Size(min = 4, max = 20, message = "Passwords length must be beetween 4 and 20 caracters!")
+    @NotBlank(message = "Password Is Required!")
+    @Size(min = 4, max = 20, message = "Passwords length must be between 4 and 20 characters!")
     private String password;
     private ArrayList<SimpleGrantedAuthority> authority;
 
