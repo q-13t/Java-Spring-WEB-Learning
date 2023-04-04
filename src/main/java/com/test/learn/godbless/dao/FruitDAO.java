@@ -1,5 +1,6 @@
 package com.test.learn.godbless.dao;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
@@ -20,6 +21,13 @@ public class FruitDAO {
 
     public List<Fruit> getAllFruits() {
         return jdbcTemplate.query("SELECT * FROM fruit;", new BeanPropertyRowMapper<>(Fruit.class));
+    }
+
+    public List<Fruit> getListById(List<Integer> ids) {
+        String placeholders = String.join(",", Collections.nCopies(ids.size(), "?"));
+        String query = "SELECT id, name, fresh, image from fruit where ID in (" + placeholders + ")";
+        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Fruit.class),
+                ids.toArray());
     }
 
     public Fruit getById(int id) {

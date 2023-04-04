@@ -1,11 +1,22 @@
 let items_selected = new Map();
 
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.selection span').forEach((span, index) => {
+        const id = span.id.replace("span", "");
+        console.log(id);
+        const element = document.getElementById(`${id}quantity`);
+        if (element.value !== "1")
+            addThisItem(document.getElementById(id));
+    });
+});
+
+
 function addThisItem(item) {
     const id = item.id;
 
     if (!items_selected.has(id)) {
-        const ammount = document.getElementById(id + "quantity").value;
-        items_selected.set(id, ammount);
+        const amount = document.getElementById(id + "quantity").value;
+        items_selected.set(id, amount);
         item.parentElement.classList.add("item-selected");
         item.innerHTML = "Remove"
     } else {
@@ -18,7 +29,7 @@ function addThisItem(item) {
     item_cont.innerHTML = items_selected.size;
     item_cont.classList.remove("play-add_animation");
     void item_cont.offsetWidth;
-    if (items_selected.length > 0) {
+    if (items_selected.size > 0) {
         item_cont.classList.add("play-add_animation");
     }
 }

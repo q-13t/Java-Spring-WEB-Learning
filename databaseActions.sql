@@ -40,7 +40,7 @@ SET FOREIGN_KEY_CHECKS=0;
 
 update fruit set image = "Kiwi" where id = 8;
 
-Delete from fruits_db.order;
+SELECT * from fruit where ID in (2,5,8);
 
 
 

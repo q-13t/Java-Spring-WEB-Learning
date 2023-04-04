@@ -1,14 +1,18 @@
 :root {
-    --body-colour: #111;
-    --support-colur: #2b2b2b;
-    --text-color: rgb(91, 197, 207);
-    --highlight-color: rgb(173, 193, 40);
+    --body-color: #111;
+    --support-color: #2b2b2b;
+    --text-color: #5bc5cf;
+    --highlight-color: #adc128;
 }
 
 html,
 body {
-    background-color: var(--body-colour);
+    background-color: var(--body-color);
     color: var(--text-color);
+}
+
+fieldset {
+    border-color: var(--text-color);
 }
 
 .button {
@@ -16,13 +20,13 @@ body {
     border-top: transparent;
     border-bottom: transparent;
     padding: 0.5%;
-    background-color: var(--support-colur);
+    background-color: var(--support-color);
     transition: all 1s;
     color: var(--text-color);
 }
 
 .button:hover {
-    background-color: var(--body-colour);
+    background-color: var(--body-color);
     transition: all 1s;
 }
 
@@ -31,8 +35,17 @@ a {
     text-decoration: none;
 }
 
+.no-pad-mar {
+    margin: 0px;
+    padding: 0px;
+}
+
 .hint {
     text-align: center;
+    color: var(--highlight-color);
+}
+
+.highlight {
     color: var(--highlight-color);
 }
 
@@ -75,7 +88,7 @@ a {
 }
 
 input {
-    background-color: var(--support-colur);
+    background-color: var(--support-color);
     color: var(--text-color);
     border: 1px solid;
     border-top: transparent;

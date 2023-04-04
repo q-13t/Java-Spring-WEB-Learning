@@ -1,0 +1,21 @@
+img {
+    aspect-ratio: 1.777;
+    max-width: 15vw;
+    height: 15vh;
+    display: inline-block;
+}
+
+.product-info {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.quantity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hidden {
+    display: none;
+}

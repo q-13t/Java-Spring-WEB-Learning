@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -8,8 +8,6 @@
     <link rel="stylesheet" type="text/css" media="all" href="../../css/global.css" />
     <link rel="stylesheet" type="text/css" media="all" href="../../css/index.css">
     <script type="text/javascript" th:src="@{/js/index.js}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.js"
-        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
     <title>Fruit Shop XXX</title>
 </head>
 
@@ -17,11 +15,11 @@
     <div class="menu-top">
 
         <div class="user-data">
-            <span th:if="${username == null}" class="user-highlight">
+            <span th:if="${username == null}" class="highlight">
                 Not Logged In!
             </span>
             <span th:if="${username != null}">Logged In As:
-                <span id="username" name="username" class="user-highlight" th:text="${username}">Not Logged In!</span>
+                <span id="username" name="username" class="highlight" th:text="${username}">Not Logged In!</span>
             </span>
             <form th:method="POST" th:action="@{/logout}" th:if="${username != null}">
                 <input type="submit" value="Logout" class="button">
@@ -34,13 +32,13 @@
         <form id="purchase-form" th:action="@{/purchase}" method="POST" class="purchase-data">
             <input type="hidden" id="order-data" name="order-data">
             <span id="item_count" class="item-count">0</span>
-            <button class="button" onclick="purchase()">Buy</button>
+            <button type="button" class="button" onclick="purchase()">Buy</button>
         </form>
     </div>
 
 
-    <div class=" selection">
-        <span th:each="fruit : ${fruits}" class="item centered">
+    <div class="selection">
+        <span th:id="'span'+${fruit.getId()}" th:each="fruit : ${fruits}" class="item centered">
             <img src="" alt="">
             <img
                 th:src="(${fruit.getImgName() ne null}) ? (@{'imgs/' + ${fruit.getImgName()} +'.png'}) : (@{imgs/Default.png})">
@@ -49,7 +47,8 @@
             <div class="quantity">
                 <input type="button" th:id="${fruit.getId()+'sub'}" th:value="'-'" onclick="updateQuantity(this)">
                 <input type="number" min="0" max="1000" name="order-quantity" th:id="${fruit.getId()+'quantity'}"
-                    value="1" oninput="validateNumber(this)">
+                    th:value="${order != null ? (order.containsKey(fruit.getId()) ? order.get(fruit.getId()) : 1):1}"
+                    oninput="validateNumber(this)">
                 <input type="button" th:id="${fruit.getId()+'add'}" th:value="'+'" onclick="updateQuantity(this)">
             </div>
             <button th:id="${fruit.getId()}" class="button" onclick="addThisItem(this)">Add</button>

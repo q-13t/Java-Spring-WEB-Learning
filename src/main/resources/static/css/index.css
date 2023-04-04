@@ -1,6 +1,6 @@
 html,
 body {
-    background-color: var(--body-colour);
+    background-color: var(--body-color);
     height: 100%;
     color: var(--text-color);
     margin: 0px;
@@ -33,7 +33,7 @@ form {
     top: 0px;
     z-index: 1;
     height: min-content;
-    background: var(--support-colur);
+    background: var(--support-color);
 }
 
 .purchase-data {
@@ -84,10 +84,6 @@ form {
     border: solid 1px;
 }
 
-.user-highlight {
-    color: var(--highlight-color);
-}
-
 .quantity {
     display: flex;
     align-items: center;
@@ -96,7 +92,7 @@ form {
 
 @keyframes add_animation {
     from {
-        color: var(--body-colour);
+        color: var(--body-color);
     }
 
     to {

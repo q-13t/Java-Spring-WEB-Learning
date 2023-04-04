@@ -21,7 +21,8 @@ public class SecurityConfig implements WebMvcConfigurer {
     SecurityFilterChain httpSecurity(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers("/", "/error/**", "/logout", "/css/**", "/js/**", "/imgs/**", "/register", "/purchase")
+                .requestMatchers("/purchase", "/confirmPurchase").hasAnyRole("ADMIN", "USER")
+                .requestMatchers("/", "/error/**", "/logout", "/css/**", "/js/**", "/imgs/**", "/register")
                 .permitAll()
                 .and()
                 .formLogin(login -> login.loginPage("/hello").permitAll())
