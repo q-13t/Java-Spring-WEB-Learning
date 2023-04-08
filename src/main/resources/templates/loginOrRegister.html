@@ -17,16 +17,15 @@
 
     <div tiles:fragment="content" class="content">
         <div class="login-div">
-            <form name="f" th:action="@{/hello}" method="post">
-                <h3>Pleas Login</h3>
-                <div th:if="${param.error}" class="alert alert-error">
-                    Invalid username and password.
-                </div>
-                <div th:if="${param.logout}" class="alert alert-success">
-                    You have been logged out.
-                </div>
-                <input type="text" id="username" name="username" placeholder="User Name" /><br>
-                <input type="password" id="password" name="password" placeholder="Password" />
+            <form name="f" th:action="@{/validateUser}" method="post" th:object="${login_user}">
+                <h3>Please Login</h3>
+                <p th:if="${error}" class="highlight">
+                    <span th:text="${error}"></span>
+                </p>
+
+                <input type="text" id="username" th:field="*{username}" th:value="${username}" name="username_register"
+                    placeholder="User Name" />
+                <input type="password" id="password" th:field="*{password}" name="password" placeholder="Password" />
                 <div class="form-actions">
                     <button type="submit" class="button">Log in</button>
                 </div>
@@ -39,14 +38,13 @@
                 <div th:if="${reg_error}" class="alert alert-error">
                     Username taken!
                 </div>
-                <div style="color: var(--highlight-color);" th:if="${#fields.hasErrors('username')}"
-                    th:errors="*{username}">Username error
+                <div class="highlight" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error
                 </div>
                 <input type="text" id="username_register" th:field="*{username}" th:value="${username_register}"
                     name="username_register" placeholder="User Name" />
                 <br>
-                <div style="color: var(--highlight-color);" th:if="${#fields.hasErrors('password')}"
-                    th:errors="*{password}">Password error</div>
+                <div class="highlight" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error
+                </div>
                 <input type="password" id="password_register" th:field="*{password}" name="password_register"
                     placeholder="Password" />
                 <div class="form-actions">

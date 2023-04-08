@@ -2,8 +2,6 @@ package com.test.learn.godbless.controllers;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,12 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.test.learn.godbless.dao.FruitDAO;
 import com.test.learn.godbless.dao.UserDAO;
-import com.test.learn.godbless.models.Fruit;
-
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class MainController {
@@ -31,21 +25,17 @@ public class MainController {
 
     @GetMapping(value = "/")
     public String getIndex(Model model) {
-
         if (!userDAO.testConnection()) {
             return "redirect:/error/notConnected";
         }
 
         model.addAttribute("fruits", fruitDAO.getAllFruits());
 
-        try {
-            String user = SecurityContextHolder.getContext().getAuthentication().getName();
-            if (user != "anonymousUser") {
-                model.addAttribute("username", user);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        String user = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (user != "anonymousUser") {
+            model.addAttribute("username", user);
         }
+
         return "index";
     }
 
@@ -58,8 +48,9 @@ public class MainController {
         System.out.println(order);
 
         model.addAttribute("order",
-                Stream.of(order.replaceAll("\\{|\\}", "").split(",")).map(x -> x.split("=")).collect(
-                        Collectors.toMap(x -> Integer.parseInt(x[0]), x -> Integer.parseInt(x[1]), (x, y) -> x,
+                Stream.of(order.replaceAll("\\{|\\}", "").split(", ")).map(x -> x.split("=")).collect(
+                        Collectors.toMap(x -> Integer.parseInt(x[0]), x -> Integer.parseInt(x[1]),
+                                (x, y) -> x,
                                 HashMap::new)));
         model.addAttribute("fruits", fruitDAO.getAllFruits());
 
@@ -108,7 +99,7 @@ public class MainController {
 
         System.out.println(country + " " + address);
 
-        // TODO implement succesfull purchase
+        // TODO redirect to successfull purchase window
 
         return "redirect:/";
     }

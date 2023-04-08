@@ -13,11 +13,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-import com.test.learn.godbless.config.UserAuthenticator;
 import com.test.learn.godbless.models.User;
+import com.test.learn.godbless.config.UserAuthenticator;
+import com.test.learn.godbless.exceptions.PasswordException;
+import com.test.learn.godbless.exceptions.UsernameException;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 @Component
 public class UserDAO {
@@ -37,16 +38,25 @@ public class UserDAO {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authenticator
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())));
-        HttpSession session = session().getSession(true);
-        session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+        session().getSession(true).setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+    }
+
+    public void validateUser(User user) throws UsernameException, PasswordException {
+        if (!isUserRegistered(user)) {
+            throw new UsernameException("Provided username was not found!");
+        }
+        if (!isUserPasswordCorrect(user)) {
+            throw new PasswordException("Provided password is incorrect!");
+        }
+        authenticate(user);
     }
 
     public void register(User user) {
         if (!testConnection())
             return;
 
-        System.out.println(checkIfUserRegistered(user) ? "Exists" : "Does Not Exist");
-        if (!checkIfUserRegistered(user)) {
+        System.out.println(isUserRegistered(user) ? "Exists" : "Does Not Exist");
+        if (!isUserRegistered(user)) {
             addToDataBase(user);
         }
         authenticate(user);
@@ -59,7 +69,7 @@ public class UserDAO {
                 "ROLE_USER");
     }
 
-    public boolean checkIfUserRegistered(User user) {
+    public boolean isUserRegistered(User user) {
         try {
             jdbctemplate.queryForObject("SELECT * FROM users WHERE USERNAME=?", new BeanPropertyRowMapper<>(User.class),
                     user.getUsername());
@@ -67,6 +77,20 @@ public class UserDAO {
             return false;
         }
         return true;
+    }
+
+    public boolean isUserPasswordCorrect(User user) {
+        try {
+            User user_db = getByUsername(user.getUsername());
+            if (user.getPassword().equals(user_db.getPassword())) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public List<SimpleGrantedAuthority> getAllAuthorities() {

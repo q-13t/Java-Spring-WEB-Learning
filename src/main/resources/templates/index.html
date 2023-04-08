@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" media="all" href="../../css/global.css" />
     <link rel="stylesheet" type="text/css" media="all" href="../../css/index.css">
     <script type="text/javascript" th:src="@{/js/index.js}"></script>
+    <link rel="icon" type="image/png" href="favicon.ico">
     <title>Fruit Shop XXX</title>
 </head>
 
@@ -47,7 +48,7 @@
             <div class="quantity">
                 <input type="button" th:id="${fruit.getId()+'sub'}" th:value="'-'" onclick="updateQuantity(this)">
                 <input type="number" min="0" max="1000" name="order-quantity" th:id="${fruit.getId()+'quantity'}"
-                    th:value="${order != null ? (order.containsKey(fruit.getId()) ? order.get(fruit.getId()) : 1):1}"
+                    th:value="${order != null ? (order.containsKey(fruit.getId()) ? order.get(fruit.getId()) : 0):0}"
                     oninput="validateNumber(this)">
                 <input type="button" th:id="${fruit.getId()+'add'}" th:value="'+'" onclick="updateQuantity(this)">
             </div>

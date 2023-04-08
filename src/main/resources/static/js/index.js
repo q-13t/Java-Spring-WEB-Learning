@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const id = span.id.replace("span", "");
         console.log(id);
         const element = document.getElementById(`${id}quantity`);
-        if (element.value !== "1")
+        if (element.value !== "0")
             addThisItem(document.getElementById(id));
     });
 });
@@ -15,7 +15,11 @@ function addThisItem(item) {
     const id = item.id;
 
     if (!items_selected.has(id)) {
-        const amount = document.getElementById(id + "quantity").value;
+        let amount = document.getElementById(id + "quantity").value;
+        if (amount === "0") {
+            amount = "1"
+            document.getElementById(id + "quantity").value = 1;
+        }
         items_selected.set(id, amount);
         item.parentElement.classList.add("item-selected");
         item.innerHTML = "Remove"
@@ -35,14 +39,20 @@ function addThisItem(item) {
 }
 
 function purchase(params) {
-    const entryValues = [];
+    if (items_selected.size != 0) {
 
-    for (const [key, value] of items_selected.entries()) {
-        entryValues.push(`${key}:${value}`);
+        const entryValues = [];
+
+        for (const [key, value] of items_selected.entries()) {
+            entryValues.push(`${key}:${value}`);
+        }
+
+        document.querySelector('#order-data').value = entryValues.join(',');
+        document.querySelector('#purchase-form').submit();
+    } else {
+        alert("Select anything for Order!");
     }
 
-    document.querySelector('#order-data').value = entryValues.join(',');
-    document.querySelector('#purchase-form').submit();
 }
 
 

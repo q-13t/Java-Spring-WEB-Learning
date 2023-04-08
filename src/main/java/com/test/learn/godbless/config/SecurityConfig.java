@@ -3,8 +3,8 @@ package com.test.learn.godbless.config;
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,17 +17,23 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @EnableWebSecurity
 public class SecurityConfig implements WebMvcConfigurer {
 
+    @Autowired
+    private CustomEntryPoint customEntryPoint;
+
     @Bean
     SecurityFilterChain httpSecurity(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests()
+        return http
+                .authorizeHttpRequests()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/purchase", "/confirmPurchase").hasAnyRole("ADMIN", "USER")
-                .requestMatchers("/", "/error/**", "/logout", "/css/**", "/js/**", "/imgs/**", "/register")
+                .requestMatchers("/", "/error/**", "/logout", "/register", "/css/**", "/js/**", "/imgs/**",
+                        "favicon.ico", "/validateUser")
                 .permitAll()
                 .and()
                 .formLogin(login -> login.loginPage("/hello").permitAll())
                 .logout(logout -> logout.permitAll().logoutSuccessUrl("/"))
-                .exceptionHandling(handling -> handling.accessDeniedPage("/error/forbidden"))
+                .exceptionHandling(handling -> handling.accessDeniedPage("/error/forbidden").authenticationEntryPoint(
+                        customEntryPoint))
                 .build();
     }
 
@@ -40,5 +46,9 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Bean
     PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    public String getAttribute() {
+        return null;
     }
 }
