@@ -1,20 +1,23 @@
-package com.test.learn.godbless.controllers;
+package com.test.learn.godbless.dao;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.test.learn.godbless.models.Fruit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import com.test.learn.godbless.dao.FruitDAO;
-import com.test.learn.godbless.dao.UserDAO;
 
 @Controller
 public class MainController {
@@ -22,6 +25,8 @@ public class MainController {
     private FruitDAO fruitDAO;
     @Autowired
     private UserDAO userDAO;
+    @Autowired
+    private OrderDAO orderDAO;
 
     @GetMapping(value = "/")
     public String getIndex(Model model) {
@@ -55,7 +60,7 @@ public class MainController {
         model.addAttribute("fruits", fruitDAO.getAllFruits());
 
         try {
-            String user = SecurityContextHolder.getContext().getAuthentication().getName();
+            String user = userDAO.getCurrentUsername();
             if (user != "anonymousUser") {
                 model.addAttribute("username", user);
             }
@@ -68,17 +73,12 @@ public class MainController {
     @PostMapping("/purchase")
     public String processPurchaseData(@RequestParam("order-data") String orderMap, Model model) {
         if (!orderMap.equals("")) {
-            HashMap<Integer, Integer> order = Stream.of(orderMap.split(","))
-                    .map(x -> x.split(":"))
-                    .collect(Collectors.toMap(
-                            x -> Integer.parseInt(x[0]),
-                            x -> Integer.parseInt(x[1]),
-                            (a, b) -> a,
-                            HashMap::new));
+            System.out.println("Original [" + orderMap + "]");
+            HashMap<Integer, Integer> order = parseOrderMap(orderMap);
 
             order.forEach((fruitId, amount) -> System.out.println(fruitId + " " + amount));
             try {
-                String user = SecurityContextHolder.getContext().getAuthentication().getName();
+                String user = userDAO.getCurrentUsername();
                 if (user != "anonymousUser") {
                     model.addAttribute("username", user);
                 }
@@ -95,13 +95,30 @@ public class MainController {
     @PostMapping(value = "/confirmPurchase")
     public String confirmPurchase(@RequestParam("country") String country,
             @RequestParam("address") String address,
+            @RequestParam("order") String orderMap,
             Model model) {
+        HashMap<Integer, Integer> order = parseOrderMap(orderMap);
 
-        System.out.println(country + " " + address);
-
-        // TODO redirect to successfull purchase window
-
-        return "redirect:/";
+        Entry<Long, String> orderAdded = orderDAO.addOrder(order, userDAO.getCurrentUsername(),
+                country + "/" + address);
+        List<Fruit> fruits = fruitDAO.getListById(new ArrayList<>(order.keySet()));
+        model.addAttribute("order_id", orderAdded.getKey())
+                .addAttribute("order_address", orderAdded.getValue())
+                .addAttribute("username", userDAO.getCurrentUsername())
+                .addAttribute("order", order)
+                .addAttribute("fruits", fruits);
+        return "orderStatus";
     }
 
+    private static HashMap<Integer, Integer> parseOrderMap(String map) {
+        map = map.replaceAll("\\{|\\}| ", "");
+        map = map.replaceAll("=", ":");
+        return Stream.of(map.split(","))
+                .map(x -> x.split(":"))
+                .collect(Collectors.toMap(
+                        x -> Integer.parseInt(x[0]),
+                        x -> Integer.parseInt(x[1]),
+                        (a, b) -> a,
+                        HashMap::new));
+    }
 }

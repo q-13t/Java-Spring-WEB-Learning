@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" media="all" href="../../css/global.css" />
+    <title>Order Status</title>
+    <link rel="icon" type="image/png" th:href="@{/imgs/favicon/favicon-32x32.png}">
+</head>
+
+<body>
+    <button class="button max-width"><a href="/">Return to Main!</a></button>
+    <h2>Your order has been submitted!</h2>
+    <p>User: <span th:text="${username}" class="highlight">username</span></p>
+    <p>Order ID: <span th:text="${order_id}" class="highlight">123</span></p>
+    <p>Address: <span th:text="${order_address}" class="highlight">address</span></p>
+    <div th:each="fruit : ${fruits}">
+        <fieldset>
+            <span>Name: <span th:text="${fruit.getName()}"></span></span>
+            <span>Quantity: <span th:text="${order.get(fruit.getId())}"></span></span>
+        </fieldset>
+    </div>
+</body>
+
+</html>

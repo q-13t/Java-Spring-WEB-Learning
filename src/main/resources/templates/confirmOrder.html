@@ -10,6 +10,7 @@
     <script type="text/javascript" th:src="@{/js/index.js}"></script>
     <script type="text/javascript" th:src="@{/js/order.js}"></script>
     <title>Confirm Order</title>
+    <link rel="icon" type="image/png" th:href="@{/imgs/favicon/favicon-32x32.png}">
 </head>
 
 <body>
@@ -19,13 +20,14 @@
     </form>
     <form id="purchase-form" th:action="@{/confirmPurchase}" th:method="post">
         <fieldset>
+            <input type="hidden" name="order" th:value="${order}">
             <span id="username" name="username" class="highlight" th:text="${username}">Not Logged In!</span>
             <br>
-            <p id="country_error" class="highlight hidden">Cannot Be Empty</p>
-            <input type="text" name="country" id="country" placeholder="Country,Region,City">
+            <input type="text" name="country" id="country" placeholder="Country,Address"><span id="country_error"
+                class="highlight hidden"> Cannot Be Empty</span>
             <br>
-            <p id="address_error" class="highlight hidden">Cannot Be Empty</p>
-            <input type="text" name="address" id="address" placeholder="Address,Building,Flat">
+            <input type="text" name="address" id="address" placeholder="Building,Flat"> <span id="address_error"
+                class="highlight hidden"> Cannot Be Empty</span>
             <br>
             <button type="button" onclick="confirm()" class="highlight button">Confirm</button>
 

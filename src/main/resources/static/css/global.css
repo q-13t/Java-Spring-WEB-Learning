@@ -58,6 +58,10 @@ a {
     margin: 1%;
 }
 
+.max-width {
+    width: 100%;
+}
+
 .even-spacing {
     display: flex;
     align-content: center;

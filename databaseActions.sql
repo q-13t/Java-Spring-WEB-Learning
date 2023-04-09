@@ -4,6 +4,9 @@ SELECT * FROM fruits_db.order;
 SELECT * FROM fruits_db.users;
 SELECT * FROM fruits_db.authorities;
 
+SELECT * FROM users u
+INNER JOIN authorities a ON a.username = u.username;
+
 -- Checker QUERIES
 SELECT a.username, a.authority
 From fruits_db.order o
@@ -42,5 +45,6 @@ update fruit set image = "Kiwi" where id = 8;
 
 SELECT * from fruit where ID in (2,5,8);
 
+select password from users where USERNAME = "Nyan";
 
-
+INSERT INTO fruits_db.order(id,fruit_id,amount,username,address) VALUE(?,?,?,?,?);
