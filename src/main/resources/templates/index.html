@@ -20,7 +20,9 @@
                 Not Logged In!
             </span>
             <span th:if="${username != null}">Logged In As:
-                <span id="username" name="username" class="highlight" th:text="${username}">Not Logged In!</span>
+                <br>
+                <a th:href="@{/user/{username}(username = ${username})}" id="username" name="username" class="highlight"
+                    th:text="${username}">Not Logged In!</a>
             </span>
             <form th:method="POST" th:action="@{/logout}" th:if="${username != null}">
                 <input type="submit" value="Logout" class="button">

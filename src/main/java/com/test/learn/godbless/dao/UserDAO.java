@@ -35,6 +35,11 @@ public class UserDAO {
         return attr.getRequest();
     }
 
+    public void unAuthenticate() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(null);
+    }
+
     public void authenticate(User user) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authenticator
@@ -147,5 +152,9 @@ public class UserDAO {
 
     public String getCurrentUsername() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+    public void updateUserByName(String username_old, String username_new) {
+        updateUserByName(username_old, getByUsername(username_old).setUsername(username_new));
     }
 }

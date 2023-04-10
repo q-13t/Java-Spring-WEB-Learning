@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" media="all" href="../../css/global.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="../../css/user.css" />
+    <title th:text="${username}">User Page</title>
+    <link rel="icon" type="image/png" th:href="@{/imgs/favicon/favicon-32x32.png}">
+</head>
+
+<body>
+    <button class="button max-width"><a href="/">Return to Main!</a></button>
+    <form th:action="@{/user/update}" th:method="post">
+        <input name="username_old" type="hidden" th:value="${username}">
+        <input name="username_new" type="text" th:value="${username}" placeholder="User Name">
+        <input type="submit" name="action" value="Save!">
+        <input type="submit" name="action" value="Delete!" style="color: red;">
+    </form>
+    <div th:if="${orders.isEmpty()}" class="hint max-width">No Orders Have Been Submitted!</div>
+    <fieldset th:each="order_ID : ${orders}">
+        <legend th:text="'Order ID: '+${order_ID.key}"></legend>
+        <div class="order-element border-spacing" th:each="order : ${order_ID.value}">
+            <span class="element-data">Name: <span class="element-data"
+                    th:text="${order.getFruit().getName()}"></span></span>
+            <span class="element-data">Quantity: <span class="element-data"
+                    th:text="${order.getAmount()}"></span></span>
+        </div>
+    </fieldset>
+</body>
+
+</html>

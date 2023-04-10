@@ -1,14 +1,22 @@
 package com.test.learn.godbless.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.test.learn.godbless.models.Order;
+
 @Component
 public class OrderDAO {
+    @Autowired
+    private FruitDAO fruitDAO;
+
     private final JdbcTemplate jdbcTemplate;
 
     public OrderDAO(JdbcTemplate template) {
@@ -33,5 +41,14 @@ public class OrderDAO {
         });
 
         return Map.entry(id, address);
+    }
+
+    public List<Order> getOrdersByUsername(String username) {
+        List<Order> orders = jdbcTemplate.query("SELECT * FROM fruits_db.order WHERE username = ?;",
+                new BeanPropertyRowMapper<>(Order.class), username);
+        for (Order order : orders) {
+            order.setFruit(fruitDAO.getById(order.getFruit_id()));
+        }
+        return orders;
     }
 }

@@ -46,5 +46,6 @@ update fruit set image = "Kiwi" where id = 8;
 SELECT * from fruit where ID in (2,5,8);
 
 select password from users where USERNAME = "Nyan";
-
+SELECT MAX(id+1) FROM fruits_db.order;
 INSERT INTO fruits_db.order(id,fruit_id,amount,username,address) VALUE(?,?,?,?,?);
+DELETE FROM fruits_db.order;

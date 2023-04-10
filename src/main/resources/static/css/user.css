@@ -1,0 +1,11 @@
+.order-element {
+    margin: 0px;
+    border-bottom: 1px solid;
+    width: 50%;
+}
+
+.element-data {
+    display: inline-block;
+    width: 25%;
+    margin: 0px;
+}
