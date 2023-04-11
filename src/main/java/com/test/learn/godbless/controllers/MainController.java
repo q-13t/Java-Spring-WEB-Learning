@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.test.learn.godbless.dao.FruitDAO;
 import com.test.learn.godbless.dao.UserDAO;
+import com.test.learn.godbless.dao.FruitDAO;
 
 @Controller
 public class MainController {
@@ -34,6 +34,7 @@ public class MainController {
         if (user != "anonymousUser") {
             model.addAttribute("username", user);
         }
+        ;
 
         return "index";
     }
