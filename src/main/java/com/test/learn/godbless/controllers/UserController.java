@@ -130,23 +130,38 @@ public class UserController {
 
     @RequestMapping(value = "/user/{username}")
     public String getUserPage(@PathVariable("username") String username, Model model) {
+        User user = userDAO.getByUsername(username);
+        if (!user.getUsername().equals(userDAO.getCurrentUsername()) && !userDAO.getCurrentUsername().equals("admin")) {
+            return "redirect:/error/forbidden";
+        }
         Map<Integer, List<Order>> orders = orderDAO.getOrdersByUsername(username)
                 .stream()
                 .collect(Collectors.groupingBy(Order::getId));
-        model.addAttribute("username", username);
+        model.addAttribute("user", user);
         model.addAttribute("orders", orders);
         return "userPage";
     }
 
     @PostMapping(value = "/user/update")
-    public String updateUsername(@ModelAttribute("username_new") String username_new,
-            @ModelAttribute("username_old") String username_old, @ModelAttribute("action") String action) {
-        System.out.println("Username old: " + username_old);
-        System.out.println("Username new: " + username_new);
-        System.out.println("action: " + action);
+    public String updateUsername(@ModelAttribute("username_old") String username_old,
+            @ModelAttribute("user") @Valid User user, BindingResult result, @ModelAttribute("action") String action,
+            Model model) {
+        if (result.hasErrors()) {
+            Map<Integer, List<Order>> orders = orderDAO.getOrdersByUsername(
+                    user.getUsername())
+                    .stream()
+                    .collect(Collectors.groupingBy(Order::getId));
+            model.addAttribute("orders", orders);
+            model.addAttribute("user", user);
+            return "userPage";
+        }
         switch (action) {
             case "Save!": {
-                userDAO.updateUserByName(username_old, username_new);
+                userDAO.updateUserByName(username_old, user.getUsername());
+                if (!username_old.equals(user.getUsername())) {
+                    orderDAO.updateOrdersUsername(username_old, user.getUsername());
+                }
+                userDAO.authenticate(user);
                 break;
             }
             case "Delete!": {
@@ -158,7 +173,7 @@ public class UserController {
                 return "redirect:/user/" + username_old;
             }
         }
-        return "redirect:/user/" + username_new;
+        return "redirect:/user/" + user.getUsername();
     }
 
     @GetMapping(value = "/error/forbidden")

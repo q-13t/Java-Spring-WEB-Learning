@@ -4,7 +4,7 @@ SELECT * FROM fruits_db.order;
 SELECT * FROM fruits_db.users;
 SELECT * FROM fruits_db.authorities;
 
-SELECT * FROM users u
+SELECT u.USERNAME,u.PASSWORD,a.AUTHORITY FROM users u
 INNER JOIN authorities a ON a.username = u.username;
 
 -- Checker QUERIES
@@ -49,3 +49,5 @@ select password from users where USERNAME = "Nyan";
 SELECT MAX(id+1) FROM fruits_db.order;
 INSERT INTO fruits_db.order(id,fruit_id,amount,username,address) VALUE(?,?,?,?,?);
 DELETE FROM fruits_db.order;
+
+Update order set username ="" where username = "";

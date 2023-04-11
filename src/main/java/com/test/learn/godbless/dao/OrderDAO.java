@@ -51,4 +51,8 @@ public class OrderDAO {
         }
         return orders;
     }
+
+    public void updateOrdersUsername(String username_old, String username) {
+        jdbcTemplate.update("Update fruits_db.order set username =? where username = ?;", username, username_old);
+    }
 }

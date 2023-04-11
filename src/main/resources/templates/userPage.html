@@ -7,19 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" media="all" href="../../css/global.css" />
     <link rel="stylesheet" type="text/css" media="all" href="../../css/user.css" />
-    <title th:text="${username}">User Page</title>
+    <title th:text="${user.getUsername()}">User Page</title>
     <link rel="icon" type="image/png" th:href="@{/imgs/favicon/favicon-32x32.png}">
 </head>
 
 <body>
     <button class="button max-width"><a href="/">Return to Main!</a></button>
-    <form th:action="@{/user/update}" th:method="post">
-        <input name="username_old" type="hidden" th:value="${username}">
-        <input name="username_new" type="text" th:value="${username}" placeholder="User Name">
+    <form th:action="@{/user/update}" th:method="post" th:object="${user}">
+        <input name="username_old" type="hidden" th:value="${user.getUsername()}">
+        <div class="highlight" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error
+        </div>
+        <div class="highlight" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error
+        </div>
+        <input name="username" type="text" th:value="*{username}" placeholder="User Name">
+        <input name="password" type="text" th:value="*{password}" placeholder="Password">
         <input type="submit" name="action" value="Save!">
         <input type="submit" name="action" value="Delete!" style="color: red;">
     </form>
-    <div th:if="${orders.isEmpty()}" class="hint max-width">No Orders Have Been Submitted!</div>
+    <div th:if="${orders?.isEmpty() }" class="hint max-width">No Orders Have Been Submitted!</div>
     <fieldset th:each="order_ID : ${orders}">
         <legend th:text="'Order ID: '+${order_ID.key}"></legend>
         <div class="order-element border-spacing" th:each="order : ${order_ID.value}">
