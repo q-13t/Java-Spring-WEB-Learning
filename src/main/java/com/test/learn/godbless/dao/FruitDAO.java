@@ -19,8 +19,24 @@ public class FruitDAO {
         jdbcTemplate = template;
     }
 
+    /**
+     * SHOULD BE OMITTED
+     * 
+     * @return
+     */
     public List<Fruit> getAllFruits() {
         return jdbcTemplate.query("SELECT * FROM fruit;", new BeanPropertyRowMapper<>(Fruit.class));
+    }
+
+    public List<Fruit> getTenFruitsByOffset(int offset) {
+        List<Fruit> list = jdbcTemplate.query("SELECT * FROM fruit limit ?,10;",
+                new BeanPropertyRowMapper<>(Fruit.class), offset);
+        while (list.isEmpty() && offset > 0) {
+            offset -= 10;
+            list = jdbcTemplate.query("SELECT * FROM fruit LIMIT ?, 10;",
+                    new BeanPropertyRowMapper<>(Fruit.class), offset);
+        }
+        return list;
     }
 
     public List<Fruit> getListById(List<Integer> ids) {

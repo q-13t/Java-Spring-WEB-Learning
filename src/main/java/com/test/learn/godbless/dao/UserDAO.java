@@ -110,6 +110,20 @@ public class UserDAO {
                 new BeanPropertyRowMapper<>(User.class));
     }
 
+    public List<User> getTenUsersByOffset(int offset) {
+        testConnection();
+        List<User> list = jdbctemplate.query(
+                "SELECT u.username, u.password, a.authority FROM users u INNER JOIN authorities a ON a.username = u.username limit ?,10;",
+                new BeanPropertyRowMapper<>(User.class), offset);
+        while (list.isEmpty() && offset > 0) {
+            offset -= 10;
+            list = jdbctemplate.query(
+                    "SELECT u.username, u.password, a.authority FROM users u INNER JOIN authorities a ON a.username = u.username limit ?,10;",
+                    new BeanPropertyRowMapper<>(User.class), offset);
+        }
+        return list;
+    }
+
     public User getByUsername(String username) {
         try {
             return jdbctemplate.queryForObject(

@@ -1,14 +1,15 @@
 package com.test.learn.godbless.dao;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.test.learn.godbless.models.Order;
 
@@ -49,6 +50,26 @@ public class OrderDAO {
         for (Order order : orders) {
             order.setFruit(fruitDAO.getById(order.getFruit_id()));
         }
+        return orders;
+    }
+
+    public Map<Integer, List<Order>> getTenOrdersByUsernameAndOffset(String username, Integer offset) {
+        Map<Integer, List<Order>> orders = jdbcTemplate
+                .query("SELECT * FROM fruits_db.order WHERE username = ? limit ?,10;",
+                        new BeanPropertyRowMapper<>(Order.class), username, offset)
+                .stream()
+                .collect(Collectors.groupingBy(Order::getId));
+        while (orders.isEmpty() && offset > 0) {
+            offset -= 10;
+            orders = jdbcTemplate.query("SELECT * FROM fruits_db.order WHERE username = ? limit ?,10;",
+                    new BeanPropertyRowMapper<>(Order.class), username, offset).stream()
+                    .collect(Collectors.groupingBy(Order::getId));
+        }
+        orders.values().forEach(list -> {
+            for (Order order : list) {
+                order.setFruit(fruitDAO.getById(order.getFruit_id()));
+            }
+        });
         return orders;
     }
 

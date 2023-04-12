@@ -3,7 +3,7 @@ let items_selected = new Map();
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.selection span').forEach((span, index) => {
         const id = span.id.replace("span", "");
-        console.log(id);
+        // console.log(id);
         const element = document.getElementById(`${id}quantity`);
         if (element.value !== "0")
             addThisItem(document.getElementById(id));

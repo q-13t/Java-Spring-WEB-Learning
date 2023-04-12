@@ -44,9 +44,26 @@ public class AdminController {
     }
 
     @GetMapping(value = "/users")
-    public String getUsers(Model model) {
+    public String getUsers(@ModelAttribute(value = "action") String action,
+            @ModelAttribute(value = "offset") String off, Model model) {
+        Integer offset = Integer.valueOf(off.isEmpty() ? "0" : off);
+        System.out.println(offset);
+        switch (action) {
+            case "Next": {
+                offset += 10;
+                break;
+            }
+            case "Previous": {
+                if (offset - 10 < 0) {
+                    offset = 0;
+                } else {
+                    offset -= 10;
+                }
+                break;
+            }
+        }
         model.addAttribute("display", "users");
-        model.addAttribute("users", userDAO.getAllUsers());
+        model.addAttribute("users", userDAO.getTenUsersByOffset(offset));
         model.addAttribute("authorities", userDAO.getAllAuthorities());
         return new String("admin/admin");
     }
@@ -102,9 +119,26 @@ public class AdminController {
     }
 
     @GetMapping(value = "/products")
-    public String getProducts(Model model) {
+    public String getProducts(@ModelAttribute(value = "action") String action,
+            @ModelAttribute(value = "offset") String off, Model model) {
+        Integer offset = Integer.valueOf(off.isEmpty() ? "0" : off);
+        System.out.println(offset);
+        switch (action) {
+            case "Next": {
+                offset += 10;
+                break;
+            }
+            case "Previous": {
+                if (offset - 10 < 0) {
+                    offset = 0;
+                } else {
+                    offset -= 10;
+                }
+                break;
+            }
+        }
         model.addAttribute("display", "products");
-        model.addAttribute("fruits", fruitDAO.getAllFruits());
+        model.addAttribute("fruits", fruitDAO.getTenFruitsByOffset(offset));
         model.addAttribute("freshness", fruitDAO.getAllFreshStates());
         return new String("admin/admin");
     }

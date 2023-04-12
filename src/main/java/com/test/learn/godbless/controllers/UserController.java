@@ -64,16 +64,13 @@ public class UserController {
             return mav;
         }
 
+        if (session.getAttribute("redirectURL") == null) {
+            ModelAndView mav = new ModelAndView("redirect:/");
+            return mav;
+        }
         String redirectURL = "redirect:/" + (((StringBuffer) session.getAttribute("redirectURL")).toString())
                 .replaceAll("(http://localhost:8080/|\\.html)", "");
         System.out.println("login: " + redirectURL);
-        if (redirectURL.equals("redirect:/login")) {
-            redirectURL = "redirect:/";
-            ModelAndView mav = new ModelAndView(redirectURL);
-            session.removeAttribute("redirectURL");
-            session.removeAttribute("redirectParameters");
-            return mav;
-        }
         ModelAndView mav = new ModelAndView(redirectURL);
         request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT);
 
@@ -101,18 +98,20 @@ public class UserController {
             mav.addObject("login_user", new User());
             return mav;
         }
-
+        if (session.getAttribute("redirectURL") == null) {
+            ModelAndView mav = new ModelAndView("redirect:/");
+            return mav;
+        }
         String redirectURL = "redirect:/" + (((StringBuffer) session.getAttribute("redirectURL")).toString())
                 .replaceAll("(http://localhost:8080/|\\.html)", "");
         System.out.println("register: " + redirectURL);
-
-        if (redirectURL.equals("redirect:/login")) {
-            redirectURL = "redirect:/";
-            ModelAndView mav = new ModelAndView(redirectURL);
-            session.removeAttribute("redirectURL");
-            session.removeAttribute("redirectParameters");
-            return mav;
-        }
+        // if (redirectURL.equals("redirect:/login")) {
+        // redirectURL = "redirect:/";
+        // ModelAndView mav = new ModelAndView(redirectURL);
+        // session.removeAttribute("redirectURL");
+        // session.removeAttribute("redirectParameters");
+        // return mav;
+        // }
         ModelAndView mav = new ModelAndView(redirectURL);
         request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT);
 
@@ -129,14 +128,31 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/{username}")
-    public String getUserPage(@PathVariable("username") String username, Model model) {
+    public String getUserPage(@PathVariable("username") String username,
+            @ModelAttribute(value = "action") String action,
+            @ModelAttribute(value = "offset") String off, Model model) {
         User user = userDAO.getByUsername(username);
         if (!user.getUsername().equals(userDAO.getCurrentUsername()) && !userDAO.getCurrentUsername().equals("admin")) {
             return "redirect:/error/forbidden";
         }
-        Map<Integer, List<Order>> orders = orderDAO.getOrdersByUsername(username)
-                .stream()
-                .collect(Collectors.groupingBy(Order::getId));
+        Integer offset = Integer.valueOf(off.isEmpty() ? "0" : off);
+        System.out.println(offset);
+        switch (action) {
+            case "Next": {
+                offset += 10;
+                break;
+            }
+            case "Previous": {
+                if (offset - 10 < 0) {
+                    offset = 0;
+                } else {
+                    offset -= 10;
+                }
+                break;
+            }
+        }
+
+        Map<Integer, List<Order>> orders = orderDAO.getTenOrdersByUsernameAndOffset(username, offset);
         model.addAttribute("user", user);
         model.addAttribute("orders", orders);
         return "userPage";

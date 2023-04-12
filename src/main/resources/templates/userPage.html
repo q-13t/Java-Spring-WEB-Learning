@@ -24,7 +24,13 @@
         <input type="submit" name="action" value="Save!">
         <input type="submit" name="action" value="Delete!" style="color: red;">
     </form>
-    <div th:if="${orders?.isEmpty() }" class="hint max-width">No Orders Have Been Submitted!</div>
+    <div th:if="${orders?.isEmpty()}" class="hint max-width">No Orders Have Been Submitted!</div>
+    <form th:if="!${orders.isEmpty()}" th:action="@{/user/{username}(username = ${user.getUsername()})}"
+        th:method="post" class="even-spacing max-width">
+        <input type="hidden" name="offset" th:value="${offset}">
+        <input type="submit" class="button direction" name="action" value="Previous">
+        <input type="submit" class="button direction" name="action" value="Next">
+    </form>
     <fieldset th:each="order_ID : ${orders}">
         <legend th:text="'Order ID: '+${order_ID.key}"></legend>
         <div class="order-element border-spacing" th:each="order : ${order_ID.value}">

@@ -45,6 +45,10 @@ a {
     color: var(--highlight-color);
 }
 
+.direction {
+    width: 25%;
+}
+
 .highlight {
     color: var(--highlight-color);
 }

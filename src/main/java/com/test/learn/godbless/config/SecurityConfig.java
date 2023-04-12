@@ -26,7 +26,8 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .authorizeHttpRequests()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/purchase", "/confirmPurchase", "/user/**").hasAnyRole("ADMIN", "USER")
-                .requestMatchers("/", "/**", "/error/**", "/logout", "/register", "/css/**", "/js/**", "/imgs/**",
+                .requestMatchers("/", "/**", "/error/**", "/logout", "/register", "/css/**", "/js/**",
+                        "/imgs/**",
                         "/imgs/favicon/**", "/validateUser")
                 .permitAll()
                 .and()

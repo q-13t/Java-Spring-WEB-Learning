@@ -25,12 +25,20 @@
                 <input type="text" name="username_search" id="username_search">
                 <input type="submit" value="Find">
             </form>
+            <form th:action="@{/admin/users}" th:method="get" class="even-spacing max-width">
+                <input type="hidden" name="offset" th:value="${offset}">
+                <input type="submit" class="button direction" name="action" value="Previous">
+                <input type="submit" class="button direction" name="action" value="Next">
+            </form>
             <p th:if="${hint ne null}" th:text="${hint}" class="hint"></p>
             <form th:if="${users} ne null" th:each="user : ${users}" th:action="@{/admin/updateUser}" th:method="post"
                 th:object="${user}">
                 <input th:type="hidden" th:name="user-pre" th:value="${user.getUsername()}">
                 <fieldset class="border-spacing">
-                    <legend th:text="${user.getUsername()}"></legend>
+                    <legend>
+                        <a th:href="@{/user/{username}(username = ${user.getUsername()})}"
+                            th:text="${user.getUsername()}" class="highlight"></a>
+                    </legend>
                     <div class="user-data">
                         <label for="username">Username: </label>
                         <input type="text" name="username" id="username" th:filed="*{username}"
@@ -41,7 +49,7 @@
                             th:value="${user.getPassword()}">
                         <br>
                         <input type="submit" value="Save!" name="action">
-                        <input type="submit" value="Delete!" name="action">
+                        <input type="submit" value="Delete!" name="action" style="color: red;">
                     </div>
                     <div class="user-authorities">
                         <fieldset>
@@ -87,7 +95,6 @@
                     </span>
                 </fieldset>
             </form>
-
         </div>
 
         <div th:if="${display == 'products'}" class="products">
@@ -100,7 +107,11 @@
                 Product!</button>
 
             <p th:if="${hint ne null}" th:text="${hint}" class="hint"></p>
-
+            <form th:action="@{/admin/products}" th:method="get" class="even-spacing max-width">
+                <input type="hidden" name="offset" th:value="${offset}">
+                <input type="submit" class="button direction" name="action" value="Previous">
+                <input type="submit" class="button direction" name="action" value="Next">
+            </form>
             <form th:if="${fruits} ne null" th:each="fruit : ${fruits}" th:action="@{/admin/updateProduct}"
                 th:method="post" th:object="${fruit}" enctype="multipart/form-data">
                 <input type="hidden" name="product-original" th:value="${fruit.getId()}">
@@ -134,7 +145,7 @@
                             name="image-input" accept="image/png" th:value="@{/imgs/__${fruit.getImgName()}__.png}">
                         <div>
                             <input type="submit" value="Save!" name="action">
-                            <input type="submit" value="Delete!" name="action">
+                            <input type="submit" value="Delete!" name="action" style="color: red;">
                         </div>
                     </span>
                 </fieldset>

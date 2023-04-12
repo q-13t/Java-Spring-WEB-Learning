@@ -51,3 +51,6 @@ INSERT INTO fruits_db.order(id,fruit_id,amount,username,address) VALUE(?,?,?,?,?
 DELETE FROM fruits_db.order;
 
 Update fruits_db.order set username ="" where username = "";
+
+SELECT * from fruits_db.order limit 1,4;
+SELECT * FROM fruit limit 4,4;

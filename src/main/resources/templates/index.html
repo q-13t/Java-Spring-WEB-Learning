@@ -27,7 +27,7 @@
             <form th:method="POST" th:action="@{/logout}" th:if="${username != null}">
                 <input type="submit" value="Logout" class="button">
             </form>
-            <form th:method="POST" th:action="@{/login}" th:if="${username == null}">
+            <form th:method="POST" th:action="@{/hello}" th:if="${username == null}">
                 <input type="submit" value="Login" class="button">
             </form>
         </div>
@@ -39,6 +39,12 @@
         </form>
     </div>
 
+
+    <form th:action="@{/}" th:method="get" class="even-spacing max-width">
+        <input type="hidden" name="offset" th:value="${offset}">
+        <input type="submit" class="button direction" name="action" value="Previous">
+        <input type="submit" class="button direction" name="action" value="Next">
+    </form>
 
     <div class="selection">
         <span th:id="'span'+${fruit.getId()}" th:each="fruit : ${fruits}" class="item centered">
