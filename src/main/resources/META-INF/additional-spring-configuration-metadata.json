@@ -1,0 +1,39 @@
+{
+    "properties": [
+        {
+            "name": "server.url",
+            "type": "java.lang.String",
+            "description": "A description for 'server.url'"
+        },
+        {
+            "name": "template.prefix",
+            "type": "java.lang.String",
+            "description": "A description for 'template.prefix'"
+        },
+        {
+            "name": "server.driver",
+            "type": "java.lang.String",
+            "description": "A description for 'server.driver'"
+        },
+        {
+            "name": "template.sufix",
+            "type": "java.lang.String",
+            "description": "A description for 'template.sufix'"
+        },
+        {
+            "name": "server.user",
+            "type": "java.lang.String",
+            "description": "A description for 'server.user'"
+        },
+        {
+            "name": "server.password",
+            "type": "java.lang.String",
+            "description": "A description for 'server.password'"
+        },
+        {
+            "name": "img.format",
+            "type": "java.lang.String",
+            "description": "A description for 'img.format'"
+        }
+    ]
+}
